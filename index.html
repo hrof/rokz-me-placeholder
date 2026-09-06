@@ -34,17 +34,19 @@
       pointer-events: none;
     }
 
-    /* cursor-following light */
+    /* cursor-following light — painted above the text, brightens whatever it crosses */
     .cursor-light {
       position: fixed;
       inset: 0;
+      z-index: 5;
       pointer-events: none;
+      mix-blend-mode: screen;
       background: radial-gradient(
         circle 260px at var(--x, 50%) var(--y, 50%),
-        rgba(150, 165, 255, 0.10),
+        rgba(200, 205, 255, 0.45),
+        rgba(200, 205, 255, 0.08) 45%,
         transparent 70%
       );
-      transition: background-position 0.05s linear;
     }
 
     /* faint grid, tech-adjacent but calm */
@@ -62,6 +64,7 @@
 
     main {
       position: relative;
+      z-index: 1;
       text-align: center;
       padding: 0 24px;
       animation: rise 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -76,7 +79,7 @@
       font-size: 0.68rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #55555c;
+      color: #3a3a3f;
     }
 
     .dot {
@@ -93,7 +96,7 @@
       font-size: clamp(1.6rem, 4.5vw, 2.4rem);
       font-weight: 400;
       letter-spacing: 0.01em;
-      background: linear-gradient(180deg, #f3f1ea, #a9a7a0);
+      background: linear-gradient(180deg, #8f8d84, #4c4a44);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -103,7 +106,7 @@
       margin: 16px 0 0;
       font-size: clamp(0.85rem, 2vw, 0.95rem);
       letter-spacing: 0.02em;
-      color: #6e6e72;
+      color: #454549;
     }
 
     .rule {
@@ -119,7 +122,7 @@
       font-size: 0.65rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #3a3a3d;
+      color: #0a0a0c;
     }
 
     @keyframes rise {
