@@ -11,61 +11,125 @@
     html, body {
       margin: 0;
       height: 100%;
-      background: #0b0b0c;
+      background: #08080a;
+      overflow: hidden;
     }
 
     body {
+      position: relative;
       display: grid;
       place-items: center;
       font-family: ui-serif, Georgia, "Times New Roman", serif;
       -webkit-font-smoothing: antialiased;
     }
 
+    /* soft ambient glow */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 700px 500px at 50% 42%, rgba(120,130,255,0.10), transparent 60%),
+        radial-gradient(ellipse 500px 400px at 65% 60%, rgba(255,140,120,0.06), transparent 60%);
+      pointer-events: none;
+    }
+
+    /* faint grid, tech-adjacent but calm */
+    body::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 60% 50% at 50% 45%, black, transparent 75%);
+      pointer-events: none;
+    }
+
     main {
+      position: relative;
       text-align: center;
       padding: 0 24px;
-      animation: fade-in 1.6s ease-out both;
+      animation: rise 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 28px;
+      font-family: ui-monospace, "SF Mono", Consolas, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #55555c;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #7c8cff;
+      box-shadow: 0 0 8px 1px rgba(124,140,255,0.6);
+      animation: pulse 2.6s ease-in-out infinite;
     }
 
     .headline {
       margin: 0;
-      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-size: clamp(1.6rem, 4.5vw, 2.4rem);
       font-weight: 400;
       letter-spacing: 0.01em;
-      color: #e8e6e1;
+      background: linear-gradient(180deg, #f3f1ea, #a9a7a0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .subline {
-      margin: 14px 0 0;
+      margin: 16px 0 0;
       font-size: clamp(0.85rem, 2vw, 0.95rem);
-      font-weight: 400;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.02em;
       color: #6e6e72;
     }
 
+    .rule {
+      width: 36px;
+      height: 1px;
+      margin: 34px auto 0;
+      background: linear-gradient(90deg, transparent, #3a3a3f, transparent);
+    }
+
     .mark {
-      margin: 40px 0 0;
+      margin: 20px 0 0;
       font-family: ui-monospace, "SF Mono", Consolas, monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: #3a3a3d;
     }
 
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(6px); }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.35; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      main { animation: none; }
+      main, .dot { animation: none; }
     }
   </style>
 </head>
 <body>
   <main>
+    <div class="status"><span class="dot"></span>signal detected</div>
     <p class="headline">You're early.</p>
     <p class="subline">Nothing to see here yet.</p>
+    <div class="rule"></div>
     <p class="mark">rokz.me</p>
   </main>
 </body>
