@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
   <meta name="referrer" content="no-referrer">
   <title>rokz.me</title>
   <style>
@@ -32,6 +32,19 @@
         radial-gradient(ellipse 700px 500px at 50% 42%, rgba(120,130,255,0.10), transparent 60%),
         radial-gradient(ellipse 500px 400px at 65% 60%, rgba(255,140,120,0.06), transparent 60%);
       pointer-events: none;
+    }
+
+    /* cursor-following light */
+    .cursor-light {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle 260px at var(--x, 50%) var(--y, 50%),
+        rgba(150, 165, 255, 0.10),
+        transparent 70%
+      );
+      transition: background-position 0.05s linear;
     }
 
     /* faint grid, tech-adjacent but calm */
@@ -77,7 +90,7 @@
 
     .headline {
       margin: 0;
-      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-size: clamp(1.6rem, 4.5vw, 2.4rem);
       font-weight: 400;
       letter-spacing: 0.01em;
       background: linear-gradient(180deg, #f3f1ea, #a9a7a0);
@@ -125,6 +138,7 @@
   </style>
 </head>
 <body>
+  <div class="cursor-light" id="cursor-light"></div>
   <main>
     <div class="status"><span class="dot"></span>signal detected</div>
     <p class="headline">You're early.</p>
@@ -132,5 +146,16 @@
     <div class="rule"></div>
     <p class="mark">rokz.me</p>
   </main>
+  <script>
+    // Purely cosmetic: tracks pointer position locally to move a CSS glow.
+    // No data is read, stored, sent, or shared — nothing leaves this page.
+    (function () {
+      var light = document.getElementById('cursor-light');
+      window.addEventListener('pointermove', function (e) {
+        light.style.setProperty('--x', e.clientX + 'px');
+        light.style.setProperty('--y', e.clientY + 'px');
+      });
+    })();
+  </script>
 </body>
 </html>
