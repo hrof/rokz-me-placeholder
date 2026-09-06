@@ -34,8 +34,23 @@
       pointer-events: none;
     }
 
-    /* cursor-following light — painted above the text, brightens whatever it crosses */
-    .cursor-light {
+    /* cursor light, background layer — sits BEHIND the text, only tints the backdrop/grid */
+    .bg-light {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      mix-blend-mode: soft-light;
+      background: radial-gradient(
+        circle 320px at var(--x, 90%) var(--y, 10%),
+        rgba(255, 195, 150, 0.55),
+        rgba(150, 170, 255, 0.18) 50%,
+        transparent 75%
+      );
+    }
+
+    /* cursor light, text layer — sits ABOVE the text, brightens the letters themselves */
+    .text-light {
       position: fixed;
       inset: 0;
       z-index: 5;
@@ -141,7 +156,8 @@
   </style>
 </head>
 <body>
-  <div class="cursor-light" id="cursor-light"></div>
+  <div class="bg-light"></div>
+  <div class="text-light"></div>
   <main>
     <div class="status"><span class="dot"></span>signal detected</div>
     <p class="headline">You're early.</p>
@@ -150,13 +166,13 @@
     <p class="mark">rokz.me</p>
   </main>
   <script>
-    // Purely cosmetic: tracks pointer position locally to move a CSS glow.
+    // Purely cosmetic: tracks pointer position locally to move two CSS glows.
     // No data is read, stored, sent, or shared — nothing leaves this page.
     (function () {
-      var light = document.getElementById('cursor-light');
+      var root = document.documentElement;
       window.addEventListener('pointermove', function (e) {
-        light.style.setProperty('--x', e.clientX + 'px');
-        light.style.setProperty('--y', e.clientY + 'px');
+        root.style.setProperty('--x', e.clientX + 'px');
+        root.style.setProperty('--y', e.clientY + 'px');
       });
     })();
   </script>
